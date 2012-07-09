@@ -1,0 +1,73 @@
+﻿@using System.Data
+@using MiniBlog.Includes.Data
+@using MiniBlog.Objects
+@{
+    if(!IsPost)
+    {
+        Response.End(HTTP.MethodNotAllowed);
+    } 
+    
+    var r = GetJson();
+
+    if (r.data == null)
+    {
+        Response.End(HTTP.BadRequest);
+    }
+    Insert(r.data);
+}
+@functions
+{
+    private const string InsertSql = @"
+        INSERT INTO dbo.Post (
+            AuthorId,
+            Title,
+            TitleSlug,
+            Body,
+            PostType,
+            AllowComments,
+            IncludeSocialButtons,
+            Tags
+        ) VALUES (
+            @AuthorId,
+            @Title,
+            @TitleSlug,
+            @Body,
+            @PostType,
+            @AllowComments,
+            @IncludeSocialButtons,
+            @Tags
+        )
+        SELECT cast(@@IDENTITY as int)
+    ";
+    
+    public void Insert(dynamic data)
+    {
+        int? id;
+        string tags = null;
+        if (data.tags != null)
+        {
+            tags = string.Join("|", ((List<object>)data.tags).Select(s => (string)s));
+        }
+        
+        using (var db = Db.GetOpenConnection())
+        {
+            id = db.Query<int>(InsertSql, new
+            {
+                AuthorId = 1,
+                Title = (string)data.title,
+                TitleSlug = (string)data.slug,
+                Body = (string)data.body,
+                PostType = ((string)data.type)[0],
+                AllowComments =(bool)data.allowComments,
+                IncludeSocialButtons = (bool)data.includeSocial,
+                Tags = tags
+            }, commandType: CommandType.Text).Single();
+        }
+        JsonResult(new
+                {
+                    success = 1,
+                    data = id
+                });
+    }
+    
+}

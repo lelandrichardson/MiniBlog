@@ -1,0 +1,78 @@
+﻿<!DOCTYPE html>
+<html class="@DisplayExtensions.PageClasses()">
+    <head>
+        <meta charset="utf-8"/>
+        <title>MiniBlog Admin</title>
+        <link rel="stylesheet" href="@Href("~/asset/css/ext/bootstrap.min.css")"/>
+        @RenderSection("head", false)
+    </head>
+    <body>
+        @if (User.Identity.IsAuthenticated)
+        {
+        <div id="header" class="navbar navbar-fixed-top">
+            <div class="navbar-inner">
+                <div class="container-fluid">
+                    <a class="brand" href="@Href("~/")">
+                        @*<img alt="MiniBlog" src="@Href("~/asset/img/brand.png")" width="100" height="25"/>*@
+                        @Settings.BlogName
+                    </a>
+                    <ul class="nav">
+                        <li class="dropdown">
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">Posts</a>
+                            <ul class="dropdown-menu">
+                                <li><a href="@Href("~/admin/posts/")">All Posts</a></li>
+                                <li><a href="@Href("~/admin/posts/edit")">Add New</a></li>
+                                @*<li><a href="#">Categories</a></li>
+                                <li><a href="#">Tags</a></li>*@
+                            </ul>
+                        </li>
+                        <li class="dropdown">
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">Settings</a>
+                            <ul class="dropdown-menu">
+                                <li><a href="@Href("~/admin/settings/")">Config</a></li>
+                                @*<li><a href="#">General</a></li>
+                                <li><a href="#">Comments</a></li>
+                                <li><a href="#">Social</a></li>
+                                <li><a href="#">Analytics</a></li>*@
+                            </ul>
+                        </li>
+                        @*<li><a href="#">Analytics</a></li>*@
+                    </ul>
+                    <ul class="nav pull-right">
+                        @*@GooGle.AddCustomVariable(2, "userId", Identity.MemberId.ToString(), Analytics.Scope.Visitor);*@
+                        <li class="dropdown">
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">@User.Identity.Name<b class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="@Href("~/admin/logout")">Logout</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        }
+        <div style="margin-top:52px;" class="container-fluid">
+            @RenderBody()
+        </div>
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+        <script src="@Href("~/asset/js/ext/bootstrap.min.js")" type="text/javascript"></script>
+        <script src="@Href("~/asset/js/ext/prettify.js")" type="text/javascript"></script>
+        <script src="@Href("~/asset/js/ext/knockout-2.1.0.js")" type="text/javascript"></script>
+        <script src="@Href("~/asset/js/ext/Markdown.Converter.js")" type="text/javascript"></script>
+        <script src="@Href("~/asset/js/ext/Markdown.Editor.js")" type="text/javascript"></script>
+        <script src="@Href("~/asset/js/MiniBlog.chirp.js")" type="text/javascript"></script>
+        <script src="@Href("~/asset/js/ko.extensions.chirp.js")" type="text/javascript"></script>
+        <script type="text/javascript">
+            $(function () {
+                $('.dropdown-toggle').dropdown();
+
+                $('#content ul.nav-tabs a').click(function (e) {
+                    e.preventDefault();
+                    $(this).tab('show');
+                });
+            });
+        </script>
+        @RenderSection("script", false)
+        @MiniProfiler.RenderIncludes()
+    </body>
+</html>

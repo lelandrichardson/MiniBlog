@@ -1,0 +1,314 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{4BC7CF12-FFB4-4994-BE9D-5F1E1C85649D}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>MiniBlog</RootNamespace>
+    <AssemblyName>MiniBlog</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="MarkdownSharp">
+      <HintPath>external\MarkdownSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="MiniProfiler">
+      <HintPath>packages\MiniProfiler.2.0.2\lib\net40\MiniProfiler.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Mvc, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="asset\css\ext\bootstrap-sm.css" />
+    <Content Include="asset\css\ext\bootstrap.css" />
+    <Content Include="asset\css\ext\bootstrap.min.css" />
+    <Content Include="asset\css\ext\prettify.css" />
+    <None Include="asset\css\ext\bootstrap-sm.less" />
+    <None Include="asset\css\ext\prettify.less" />
+    <Content Include="asset\css\main.chirp.css">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>main.chirp.tt</DependentUpon>
+    </Content>
+    <Content Include="asset\css\main.min.css">
+      <DependentUpon>main.chirp.css</DependentUpon>
+    </Content>
+    <Content Include="asset\css\mb-editor.css">
+      <DependentUpon>mb-editor.chirp.less</DependentUpon>
+    </Content>
+    <Content Include="asset\css\mb-editor.min.css">
+      <DependentUpon>mb-editor.chirp.less</DependentUpon>
+    </Content>
+    <Content Include="asset\css\mb.css">
+      <DependentUpon>mb.chirp.less</DependentUpon>
+    </Content>
+    <Content Include="asset\css\mb.min.css">
+      <DependentUpon>mb.chirp.less</DependentUpon>
+    </Content>
+    <Content Include="asset\img\glyphicons-halflings-white.png" />
+    <Content Include="asset\img\glyphicons-halflings.png" />
+    <Content Include="asset\img\wmd-buttons.png" />
+    <Content Include="asset\js\mb.admin.authors.chirp.js" />
+    <Content Include="asset\js\mb.admin.authors.min.js">
+      <DependentUpon>mb.admin.authors.chirp.js</DependentUpon>
+    </Content>
+    <Content Include="asset\js\mb.chirp.js" />
+    <Content Include="asset\js\main.chirp.js">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>main.chirp.tt</DependentUpon>
+    </Content>
+    <Content Include="asset\js\main.min.js">
+      <DependentUpon>main.chirp.js</DependentUpon>
+    </Content>
+    <Content Include="asset\js\mb.admin.post-list.chirp.js" />
+    <Content Include="asset\js\mb.admin.post-list.min.js">
+      <DependentUpon>mb.admin.post-list.chirp.js</DependentUpon>
+    </Content>
+    <Content Include="asset\js\mb.admin.settings.chirp.js" />
+    <Content Include="asset\js\mb.admin.post.chirp.js" />
+    <Content Include="asset\js\ext\bootstrap.js" />
+    <Content Include="asset\js\ext\bootstrap.min.js" />
+    <Content Include="asset\js\ext\knockout-2.1.0.js" />
+    <Content Include="asset\js\ext\lang-apollo.js" />
+    <Content Include="asset\js\ext\lang-clj.js" />
+    <Content Include="asset\js\ext\lang-css.js" />
+    <Content Include="asset\js\ext\lang-go.js" />
+    <Content Include="asset\js\ext\lang-hs.js" />
+    <Content Include="asset\js\ext\lang-lisp.js" />
+    <Content Include="asset\js\ext\lang-lua.js" />
+    <Content Include="asset\js\ext\lang-ml.js" />
+    <Content Include="asset\js\ext\lang-n.js" />
+    <Content Include="asset\js\ext\lang-proto.js" />
+    <Content Include="asset\js\ext\lang-scala.js" />
+    <Content Include="asset\js\ext\lang-sql.js" />
+    <Content Include="asset\js\ext\lang-tex.js" />
+    <Content Include="asset\js\ext\lang-vb.js" />
+    <Content Include="asset\js\ext\lang-vhdl.js" />
+    <Content Include="asset\js\ext\lang-wiki.js" />
+    <Content Include="asset\js\ext\lang-xq.js" />
+    <Content Include="asset\js\ext\lang-yaml.js" />
+    <Content Include="asset\js\ext\Markdown.Converter.js" />
+    <Content Include="asset\js\ext\Markdown.Editor.js" />
+    <Content Include="asset\js\ext\Markdown.Sanitizer.js" />
+    <Content Include="asset\js\ext\prettify.js" />
+    <Content Include="asset\js\ko.extensions.chirp.js" />
+    <Content Include="asset\js\ko.extensions.min.js">
+      <DependentUpon>ko.extensions.chirp.js</DependentUpon>
+    </Content>
+    <Content Include="asset\js\mb.admin.post.min.js">
+      <DependentUpon>mb.admin.post.chirp.js</DependentUpon>
+    </Content>
+    <Content Include="asset\js\mb.admin.settings.min.js">
+      <DependentUpon>mb.admin.settings.chirp.js</DependentUpon>
+    </Content>
+    <Content Include="asset\js\mb.min.js">
+      <DependentUpon>mb.chirp.js</DependentUpon>
+    </Content>
+    <Content Include="asset\js\MiniBlog.chirp.js" />
+    <Content Include="asset\js\MiniBlog.min.js">
+      <DependentUpon>MiniBlog.chirp.js</DependentUpon>
+    </Content>
+    <Content Include="asset\js\_intellisense.js" />
+    <Content Include="favicon.ico" />
+    <Content Include="Global.asax" />
+    <Content Include="Web.config" />
+    <Content Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_Code\Framework\WebView.cs" />
+    <Content Include="App_Code\Framework\HTTP.cs" />
+    <Content Include="App_Code\Framework\SafeExpando.cs" />
+    <Content Include="App_Code\Extensions\Analytics.cs" />
+    <Content Include="App_Code\Extensions\DisplayExtensions.cs" />
+    <Content Include="App_Code\Extensions\Facebook.cs" />
+    <Content Include="App_Code\Extensions\Google.cs" />
+    <Content Include="App_Code\Extensions\Head.cs" />
+    <Content Include="App_Code\Extensions\LinkedIn.cs" />
+    <Content Include="App_Code\Extensions\MarkdownExtensions.cs" />
+    <Content Include="App_Code\Extensions\Microdata.cs" />
+    <Content Include="App_Code\Extensions\OpenGraph.cs" />
+    <Content Include="App_Code\Extensions\ResponseExtensions.cs" />
+    <Content Include="App_Code\Extensions\Twitter.cs" />
+    <Content Include="App_Code\Extensions\ViewBagExtensions.cs" />
+    <Content Include="App_Code\Objects\Post.cs" />
+    <Content Include="App_Code\Framework\DynamicJsonConverter.cs" />
+    <Content Include="App_Code\Framework\Rss.cs" />
+    <Content Include="App_Code\Framework\MiniBlogMembershipProvider.cs" />
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="Includes\MiniBlog.Includes.csproj">
+      <Project>{8298D04E-9CC1-4F4C-9D74-652AD11B4A08}</Project>
+      <Name>MiniBlog.Includes</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="post.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="_PageStart.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="admin\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="_Layout.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="admin\login.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="admin\_Layout.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="admin\_PageStart.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="admin\Web.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="admin\Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="admin\Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="admin\analytics\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="admin\posts\edit.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="admin\settings\Index.cshtml" />
+    <Content Include="ajax\_PageStart.cshtml" />
+    <Content Include="ajax\vc.cshtml" />
+    <Content Include="App_Code\Helpers\Disqus.cshtml" />
+    <Content Include="App_Code\Helpers\Knockout.cshtml" />
+    <Content Include="ajax\settings\list.cshtml" />
+    <Content Include="ajax\settings\update.cshtml" />
+    <Content Include="ajax\settings\flush.cshtml" />
+    <Content Include="admin\posts\Index.cshtml" />
+    <Content Include="ajax\posts\list.cshtml" />
+    <Content Include="ajax\posts\get.cshtml" />
+    <Content Include="ajax\posts\insert.cshtml" />
+    <Content Include="ajax\posts\update.cshtml" />
+    <Content Include="ajax\posts\publish.cshtml" />
+    <Content Include="App_Code\Helpers\Components.cshtml" />
+    <Content Include="ajax\settings\insert.cshtml" />
+    <Content Include="ajax\settings\remove.cshtml" />
+    <Content Include="admin\settings\authors.cshtml" />
+    <Content Include="ajax\authors\list.cshtml" />
+    <Content Include="ajax\authors\insert.cshtml" />
+    <Content Include="ajax\authors\remove.cshtml" />
+    <Content Include="ajax\authors\change-password.cshtml" />
+    <Content Include="admin\logout.cshtml" />
+    <Content Include="ajax\Web.config" />
+    <Content Include="ajax\Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="ajax\Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <None Include="asset\css\mb.chirp.less" />
+    <None Include="asset\css\main.chirp.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>main.chirp.css</LastGenOutput>
+    </None>
+    <None Include="asset\css\mb-editor.chirp.less" />
+    <None Include="asset\js\main.chirp.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>main.chirp.js</LastGenOutput>
+    </None>
+    <Content Include="archive.cshtml" />
+    <Content Include="feed\Index.cshtml" />
+    <Content Include="feed\_PageStart.cshtml" />
+    <Content Include="tag.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>53829</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:49745/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

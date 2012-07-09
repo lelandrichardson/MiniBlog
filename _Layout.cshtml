@@ -1,0 +1,32 @@
+﻿<!DOCTYPE html>
+<html class="@DisplayExtensions.PageClasses()">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>@((ViewBag.Title != null) ? string.Format("{0} - {1}", ViewBag.Title, Settings.BlogName) : Settings.BlogName)</title>
+        <link href="@Href("~/asset/css/mb.min.css")" rel="stylesheet" type="text/css" />
+        @RenderCss()
+        @Head.RssLink(CanonicalUrl("~/feed/"), Settings.BlogName + " Feed")
+        @RenderSection("head",false)
+    </head>
+    <body>
+        <div class="container">
+            <div id="header" class="span8 offset2">
+                @Components.Header()
+            </div>
+            <div class="row">
+                <div id="nav" class="span3">
+                    @Components.Sidebar()
+                </div>
+                <div id="content" class="span8">
+                    @RenderBody()    
+                </div>
+            </div>
+        </div>
+        @*<script src="@Href("~/asset/js/ext/prettify.js")" type="text/javascript"></script>
+        <script src="@Href("~/asset/js/mb.min.js")" type="text/javascript"></script>*@
+        <script src="@Href("~/asset/js/main.min.js")" type="text/javascript"></script>
+        @RenderSection("script",false)
+        @GoogleAnalytics.Render()
+        @MiniProfiler.RenderIncludes()
+    </body>
+</html>

@@ -1,0 +1,34 @@
+﻿@using MiniBlog.Objects
+@{
+    var tag = Request["tag"];
+    if(string.IsNullOrEmpty("tag"))
+    {
+        Response.Redirect("~/");
+    }
+    
+    var posts = Post.ListFromTag(tag);
+}
+@section head {
+    @Head.Canonical(CanonicalUrl("~/tag/{0}/", tag))
+}
+<h1 class="page-title">Posts tagged with '<span style="color: #005580;">@tag</span>'</h1>
+
+<ul class="post-list">
+    @foreach(var post in posts)
+    {
+    <li class="post-list-item">
+        <h2 class="title"><a href="@SlugUrl(post.TitleSlug)">@post.Title</a></h2>
+        <div class="title-info">posted <b>@post.DatePublished.Value.ToString("ddd, MMM d, yyyy")</b></div>
+        @*<div class="post-body">
+            @FromMarkdown(post.Body)
+        </div>*@
+    </li>    
+    }
+</ul>
+
+
+@section script {
+    <script type="text/javascript">
+        MiniBlog.styleCode();
+    </script>
+}

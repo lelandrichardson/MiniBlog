@@ -1,0 +1,30 @@
+﻿<#@ template language="C#" hostspecific="True" #>
+<#@ import namespace="System" #>
+<#@ import namespace="System.IO" #>
+<#@ import namespace="Microsoft.VisualStudio.TextTemplating" #>
+<#@ Output Extension=".css" #>
+<#
+/*-------------------------------------------------*/
+// Settings      
+/*-------------------------------------------------*/
+string[] files = new string[] {
+	"ext/prettify.css",
+	"ext/bootstrap.min.css",
+	"mb.min.css"
+};
+/*-------------------------------------------------*/
+Directory.SetCurrentDirectory(Path.GetDirectoryName(Host.TemplateFile));
+ 
+var filespec = "*.css";
+#>
+<#
+foreach(var cssFile in files)
+{
+    Write("/* ----------- " + cssFile + " ----------- */\n");
+    using(StreamReader sr = File.OpenText(cssFile))
+    {
+        Write(sr.ReadToEnd());
+        sr.Close();
+    }
+}
+#>

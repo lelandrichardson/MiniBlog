@@ -1,0 +1,35 @@
+﻿@using MiniBlog.Objects
+@{
+    if (Request.HttpMethod.ToUpper() != "GET")
+    {
+        Response.End(HTTP.MethodNotAllowed);
+    }
+    
+    int id;
+    if (!int.TryParse(Request["id"], out id))
+    {
+        Response.End(HTTP.BadRequest);
+    }
+
+    var p = Post.Get(id);
+
+    if(p.Id == 0)
+    {
+        Response.End(HTTP.NotFound);
+    }
+    
+    JsonResult(new
+                {
+                    id = p.Id,
+                    title = p.Title,
+                    slug = p.TitleSlug,
+                    body = p.Body,
+                    status = p.Status,
+                    type = p.PostType,
+                    publishDate = p.DatePublished.HasValue ? p.DatePublished.Value.ToString("s") : null,
+                    dateCreated = p.DateCreated.ToString("s"),
+                    allowComments = p.AllowComments,
+                    includeSocial = p.IncludeSocialButtons,
+                    tags = p.Tags
+                });
+}

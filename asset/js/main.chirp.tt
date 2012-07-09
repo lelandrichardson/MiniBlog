@@ -1,0 +1,29 @@
+﻿<#@ template language="C#" hostspecific="True" #>
+<#@ import namespace="System" #>
+<#@ import namespace="System.IO" #>
+<#@ import namespace="Microsoft.VisualStudio.TextTemplating" #>
+<#@ Output Extension=".js" #>
+<#
+/*-------------------------------------------------*/
+// Settings      
+/*-------------------------------------------------*/
+string[] files = new string[] {
+	"ext/prettify.js",
+	"mb.chirp.js"
+};
+/*-------------------------------------------------*/
+Directory.SetCurrentDirectory(Path.GetDirectoryName(Host.TemplateFile));
+ 
+var filespec = "*.js";
+#>
+<#
+foreach(var jsFile in files)
+{
+    Write("/* ----------- " + jsFile + " ----------- */\n");
+    using(StreamReader sr = File.OpenText(jsFile))
+    {
+        Write(sr.ReadToEnd());
+        sr.Close();
+    }
+}
+#>

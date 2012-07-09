@@ -1,0 +1,30 @@
+﻿@using MarkdownSharp
+@using MiniBlog.Objects
+@{
+    //TODO: caching
+    
+    var posts = Post.ListRecent();
+
+    var feed = Rss.CreateFeedWriter();
+
+    Rss.Start(feed,
+        title: Settings.BlogName,
+        mainUrl: Href("~/"),
+        imageUrl: Href(".~/favicon.ico")); 
+        
+    //TODO: ImageUrl
+    //TODO: add tags (ie, for COdeProject)
+    
+    foreach (var post in posts)
+    {
+        Rss.Item(feed,
+            title: post.Title,
+            description: (new Markdown()).Transform(post.Body),
+            link: SlugUrl(post.TitleSlug),
+            guid: SlugUrl(post.TitleSlug),
+            pubDate: post.DatePublished ?? DateTime.Now
+            );
+    }
+
+    Rss.End(feed);
+}

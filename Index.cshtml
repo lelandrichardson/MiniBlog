@@ -1,0 +1,26 @@
+﻿@using MiniBlog.Includes.Data
+@using MiniBlog.Objects
+@{
+    //MiniBlogSettingsProvider.RefreshSettings();
+    var posts = Post.ListRecent();
+}
+<ul class="post-list">
+    @foreach(var post in posts)
+    {
+    <li class="post-list-item">
+        <h2 class="title"><a href="@SlugUrl(post.TitleSlug)">@post.Title</a></h2>
+        <div class="title-info">posted <b>@Components.FormatPostDate(post.DatePublished.Value)</b></div>
+        <div class="post-body">
+            @FromMarkdown(post.Body)
+        </div>
+    </li>    
+    }
+</ul>
+
+
+@section script {
+    <script type="text/javascript">
+        MiniBlog.registerView();
+        MiniBlog.styleCode();
+    </script>
+}

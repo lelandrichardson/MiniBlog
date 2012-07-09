@@ -1,0 +1,47 @@
+﻿@using System.Data
+@using MiniBlog.Includes.Data
+@using MiniBlog.Objects
+@{
+    if(!IsPost)
+    {
+        Response.End(HTTP.MethodNotAllowed);
+    }
+     
+    var r = GetJson();
+
+    if (r.data == null)
+    {
+        Response.End(HTTP.BadRequest);
+    }
+
+    //TODO: validate type information
+    
+    UpdateSetting(r.data.name, r.data.value);
+
+}
+@functions
+{
+    private const string SaveBodySql = @"
+        UPDATE dbo.Setting
+        SET SettingValue = @SettingValue
+        WHERE SettingName = @SettingName
+        ";
+         
+    private void UpdateSetting(string name, string value)
+    {
+        using(var db = Db.GetOpenConnection())
+        {
+            db.Execute(SaveBodySql, new
+                        {
+                            SettingValue = value,
+                            SettingName = name
+                        }, commandType:CommandType.Text);
+        }
+
+        JsonResult(new
+                       {
+                           success = 1
+                       });
+
+    }
+}

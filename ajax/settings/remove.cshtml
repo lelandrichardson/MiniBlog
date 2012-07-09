@@ -1,0 +1,30 @@
+﻿@using System.Data
+@using MiniBlog.Includes.Data
+@{
+    if (Request.HttpMethod.ToUpper() != "GET")
+    {
+        Response.End(HTTP.MethodNotAllowed);
+    }
+    
+    if (Request["name"] == null)
+    {
+        Response.End(HTTP.BadRequest);
+    }
+    
+    const string RemoveSql = @"
+DELETE FROM dbo.Setting
+WHERE SettingName = @SettingName
+";
+    using (var db = Db.GetOpenConnection())
+    {
+        db.Execute(
+            RemoveSql, 
+            new {SettingName = Request["name"]}, 
+            commandType: CommandType.Text);
+    }
+    
+    JsonResult(new
+                {
+                    success = 1
+                });
+}

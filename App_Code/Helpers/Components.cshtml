@@ -1,0 +1,59 @@
+﻿@using MiniBlog.Includes.Data
+@using MiniBlog.Objects
+@using MiniBlog.Extensions;
+@helper Sidebar()
+    {
+    using (var db = Db.GetOpenConnection())
+    {
+        using (var multi = db.QueryMultiple("dbo.spu_Sidebar"))
+        {
+    <h3>Recent Posts</h3>
+    <ul>
+        @foreach (var post in multi.Read<Post>())
+        {
+            <li><a href="@SlugUrl(post.TitleSlug)">@post.Title</a></li>
+        }
+    </ul>
+    <h3>Other</h3>
+    <ul>
+        @foreach (var a in multi.Read())
+        {
+            <li><a href="@SlugUrl(a.TitleSlug)">@a.Title</a></li>
+        }
+    </ul>
+    <h3>Archives</h3>
+    <ul>
+        @foreach (var a in multi.Read())
+        {
+            var dt = new DateTime(a.Year, a.Month, 1);
+            <li><a href="@Href(string.Format("~/{0}/{1}/", dt.Year, dt.Month))">@dt.ToString("MMMM yyyy")</a></li>
+        }
+    </ul> 
+
+        }
+    }
+}
+
+@helper Header() {
+    <h1><a href="@Href("~/")">@Settings("BlogName")</a></h1>
+    <h4>@Settings("TagLine") by <a href="@SlugUrl((string)Settings("AboutMeSlug"))">@Settings("BlogAuthor")</a></h4>
+}
+
+@helper FormatPostDate(DateTime dt) {
+    <time itemprop="datePublished" datetime="@dt.ToString("s")">@dt.ToTimeAgo()</time>
+}
+
+
+@functions {
+
+    public static object Settings(string name)
+    {
+        return MiniBlogSettingsProvider.Settings[name];
+    }
+
+    public static string SlugUrl(string slug)
+    {
+        return Href(string.Format("~/{0}/", slug));
+    }
+
+}

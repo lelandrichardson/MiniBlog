@@ -1,0 +1,117 @@
+﻿@{
+    
+}
+@section head {
+    <link rel="stylesheet" href="@Href("~/asset/css/mb-editor.min.css")"/>
+}
+<div class="form-horizontal" >
+<div class="row-fluid">
+<div class="span12">
+
+    <h1>Edit Post <span data-bind="visible: status() == 'A'">(Published <span data-bind="text: publishDate.formatted"></span>)</span></h1>
+    <div class="btn-group pull-right">
+        <a class="btn dropdown-toggle"><i class="icon-cog"></i> Actions <span class="caret"></span></a>
+        <ul class="dropdown-menu">
+            <li><a href="#" data-bind="visible: allowSave, click: save">Save</a></li>
+            <li><a href="#">Previous Versions</a></li>
+            <li class="divider"></li>
+            <li><a href="#" data-bind="visible: id()!==0, text: publishOrUnpublish, click: publish"></a></li>
+            <li><a href="#" data-bind="visible: id()!==0, click: preview">Preview</a></li>
+        </ul>
+    </div>
+    <a class="btn pull-right" href="@Href("~/admin/posts")">Back to List</a>
+
+    <div class="control-group">
+        <label class="control-label">Title</label>
+        <div class="controls">
+            <input data-bind="value: title, valueUpdate: 'afterkeydown', event: { keyup: updateSlug }" type="text" id="title" name="title" class="input-xxlarge" />
+        </div>
+    </div>
+    
+    <div class="control-group">
+        <label class="control-label">Permalink</label>
+        <div class="controls">
+            <input data-bind="value: slug, valueUpdate: 'afterkeydown', event: {keyup: slugKeyDown}" type="text" id="title" name="title" class="input-xxlarge" />
+            <input type="checkbox" data-bind="checked: isSlugBound"/>
+        </div>
+    </div>
+    
+    <div class="control-group">
+        <label class="control-label">Post Type</label>
+        <div class="controls">
+            <select data-bind="options: typeOptions, optionsText: 'label', optionsValue: 'id', value: type"></select>
+        </div>
+    </div>
+    
+    <div class="control-group">
+        <label class="control-label">Options</label>
+        <div class="controls">
+            <label class="checkbox inline">
+                <input type="checkbox" data-bind="checked: allowComments"/>
+                Allow Comments
+            </label>
+            <label class="checkbox inline">
+                <input type="checkbox" data-bind="checked: includeSocial"/>
+                Include Social Media Buttons
+            </label>
+        </div>
+    </div>
+    
+    <div class="control-group">
+        <label class="control-label">Tags</label>
+        <div class="controls">
+            <form data-bind="submit: addTag"><input type="text" id="tags" data-bind="value: tagInput" /></form>
+        </div>
+    </div>
+    
+    <div data-bind="foreach: tags">
+        <div class="mb-tag"><span data-bind="text: $data"></span><b class="close" data-bind="click: $root.removeTag">&times;</b></div>
+    </div>
+    
+</div>
+</div>
+<div class="row-fluid">
+    <div class="wmd-panel span6">
+        <div id="wmd-button-bar"></div>
+        <textarea data-bind="value: body, valueUpdate: 'afterkeydown'" name="body" class="wmd-input" id="wmd-input"></textarea>
+    </div>
+    <div class="span6">
+        <h4>Live Preview:</h4>
+        <div class="tp-editor-preview">
+            <div id="wmd-preview" class="wmd-panel wmd-preview"></div>
+        </div>
+    </div>
+</div>
+
+@*<pre data-bind="text: ko.toJSON($root, null, 2)"></pre>*@
+
+@section script {
+    <script src="@Href("~/asset/js/mb.admin.post.chirp.js")" type="text/javascript"></script>
+    <script type="text/javascript">
+        (function ($) {
+            var converter1 = new Markdown.Converter();
+            var editor1 = new Markdown.Editor(converter1);
+            editor1.run();
+            var styleCode = function () {
+                $("#wmd-preview pre").addClass("prettyprint");
+                //                $("#wmd-preview code").html(prettyPrintOne($("#wmd-preview code").html()));
+                prettyPrint();
+            };
+            var prettyTimeout;
+            $(function() {
+                $("#wmd-input").keydown(function() {
+                    if (prettyTimeout) {
+                        clearTimeout(prettyTimeout);
+                    }
+                    prettyTimeout = setTimeout(function() { styleCode(); }, 1000);
+                });
+                styleCode();
+            });
+        })($);
+        @if(Request["id"] != null)
+        {
+            @:window.viewModel.load(@Request["id"]);    
+        }
+        
+    </script>
+}

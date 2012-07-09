@@ -1,0 +1,35 @@
+﻿@using MiniBlog.Objects
+@{
+    //MiniBlogSettingsProvider.RefreshSettings();
+    int year, month;
+    if(!(int.TryParse(Request["year"],out year) & int.TryParse(Request["month"],out month)))
+    {
+        Response.Redirect("~/");
+    }
+    
+    var posts = Post.ListArchiveMonth(year, month);
+}
+@section head {
+    @Head.Canonical(CanonicalUrl("~/{0}/{1}/", year, month))
+}
+<h1 class="page-title">Archives from @((new DateTime(year,month,1)).ToString("MMMM yyyy"))</h1>
+
+<ul class="post-list">
+    @foreach(var post in posts)
+    {
+    <li class="post-list-item">
+        <h2 class="title"><a href="@SlugUrl(post.TitleSlug)">@post.Title</a></h2>
+        <div class="title-info">posted <b>@post.DatePublished.Value.ToString("ddd, MMM d, yyyy")</b></div>
+        @*<div class="post-body">
+            @FromMarkdown(post.Body)
+        </div>*@
+    </li>
+    }
+</ul>
+
+
+@section script {
+    <script type="text/javascript">
+        MiniBlog.styleCode();
+    </script>
+}

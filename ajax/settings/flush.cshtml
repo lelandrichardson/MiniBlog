@@ -1,0 +1,11 @@
+﻿@using System.Data
+@using MiniBlog.Includes.Data
+@{
+    if(Request.HttpMethod.ToUpper() != "GET")
+    {
+        Response.End(HTTP.MethodNotAllowed);
+    }
+    MiniBlogSettingsProvider.RefreshSettings();
+    
+    JsonResult(new { success = 1});
+}

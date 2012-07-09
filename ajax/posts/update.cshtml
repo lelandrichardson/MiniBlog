@@ -1,0 +1,101 @@
+﻿@using System.Data
+@using MiniBlog.Includes.Data
+@{
+    if (!IsPost)
+    {
+        Response.End(HTTP.MethodNotAllowed);
+    }
+    
+    var r = GetJson();
+
+    if (r.data == null)
+    {
+        Response.End(HTTP.BadRequest);
+    }
+
+    switch ((string) (r.method ?? ""))
+    {
+        case "save-body":
+            SaveBody(r.data.id, r.data.body);
+            break;
+
+        case "save-all":
+            SaveAll(r.data);
+            break;
+
+        case "":
+            Response.End(HTTP.BadRequest);
+            break;
+    }
+
+}
+@functions
+{
+    private const string SaveBodySql = @"
+        UPDATE dbo.Post
+        SET Body = @Body
+        WHERE Id = @Id
+        ";
+         
+    private void SaveBody(int postId, string body)
+    {
+        using(var db = Db.GetOpenConnection())
+        {
+            db.Execute(SaveBodySql, new
+                        {
+                            Id = postId,
+                            Body = body
+                        }, commandType:CommandType.Text);
+        }
+
+        JsonResult(new
+                       {
+                           success = 1
+                       });
+
+    }
+
+    private const string SaveAllSql = @"
+        UPDATE dbo.Post
+        SET 
+            AuthorId = @AuthorId,
+            Title = @Title,
+            TitleSlug = @TitleSlug,
+            Body = @Body,
+            Status = @Status,
+            PostType = @PostType,
+            AllowComments = @AllowComments,
+            IncludeSocialButtons = @IncludeSocialButtons,
+            Tags = @Tags
+        WHERE Id = @Id
+        ";
+    
+    public void SaveAll(dynamic data)
+    {
+        string tags = null;
+        if (data.tags != null)
+        {
+            tags = string.Join("|", ((List<object>)data.tags).Select(s=>(string)s));
+        }
+        using (var db = Db.GetOpenConnection())
+        {
+            db.Execute(SaveAllSql, new
+            {
+                Id = (int)data.id,
+                AuthorId = 1,
+                Title = (string)data.title,
+                TitleSlug = (string)data.slug,
+                Status = ((string)data.status)[0],
+                Body = (string)data.body,
+                PostType = ((string)data.type)[0],
+                AllowComments = (bool)data.allowComments,
+                IncludeSocialButtons = (bool)data.includeSocial,
+                Tags = tags
+            }, commandType: CommandType.Text);
+        }
+        JsonResult(new
+                {
+                    success = 1
+                });
+    }
+}

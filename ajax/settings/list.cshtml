@@ -1,0 +1,29 @@
+﻿@using System.Data
+@using MiniBlog.Includes.Data
+@{
+    if(Request.HttpMethod.ToUpper() != "GET")
+    {
+        Response.End(HTTP.MethodNotAllowed);
+    }
+    
+    IEnumerable<dynamic> settings;
+    using(var db = Db.GetOpenConnection())
+    {
+        settings = db.Query(
+            @"
+            SELECT
+                SettingName as [name],
+                SettingDescription as [description],
+                SettingValue as [value],
+                DataType as [type]
+            FROM dbo.Setting
+            ", commandType:CommandType.Text);
+    }
+    JsonResult(settings.Select(s => new
+                                    {
+                                        s.name,
+                                        s.description,
+                                        s.value,
+                                        s.type
+                                    }));
+}

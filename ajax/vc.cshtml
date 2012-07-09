@@ -1,0 +1,43 @@
+﻿@using System.Data
+@using MiniBlog.Includes.Data
+@{
+    Response.ClearHeaders();
+    Response.StatusCode = HTTP.NoContent;
+    
+    // PURPOSE: Register view counts via ajax calls
+    
+    // URL Templates:
+    // /ajax/vc
+    // /ajax/vc?p=<post-ID>
+    int id;
+    if(int.TryParse(Request["p"], out id))
+    {
+        //Register view count on question
+        
+        using(var db = Db.GetOpenConnection())
+        {
+//            db.Execute(
+//                @"UPDATE [con].[Question]
+//                    SET View_Count = View_Count+1
+//                WHERE ID = @Question_ID",
+//                new {Question_ID = id},
+//                commandType: CommandType.Text);
+        }
+        
+    } else
+    {
+        //Register view count on home...
+        using (var db = Db.GetOpenConnection())
+        {
+            //            db.Execute(
+            //                @"UPDATE [con].[Question]
+            //                    SET View_Count = View_Count+1
+            //                WHERE ID = @Question_ID",
+            //                new {Question_ID = id},
+            //                commandType: CommandType.Text);
+        }
+    }
+    
+    
+    Response.End();
+}

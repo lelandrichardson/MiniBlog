@@ -1,0 +1,25 @@
+﻿@using System.Data
+@using MiniBlog.Includes.Data
+@{
+    if(Request.HttpMethod.ToUpper() != "GET")
+    {
+        Response.End(HTTP.MethodNotAllowed);
+    }
+
+    IEnumerable<dynamic> authors;
+    using(var db = Db.GetOpenConnection())
+    {
+        authors = db.Query(
+            @"
+            SELECT
+                FullName as [name],
+                Email as [email]
+            FROM dbo.Author
+            ", commandType:CommandType.Text);
+    }
+    JsonResult(authors.Select(s => new
+                                    {
+                                        s.name,
+                                        s.email
+                                    }));
+}

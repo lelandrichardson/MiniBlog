@@ -1,0 +1,84 @@
+﻿@using System.Data
+@using MiniBlog.Includes.Data
+@using MiniBlog.Objects
+@{
+    if(Request.HttpMethod.ToUpper() != "GET")
+    {
+        Response.End(HTTP.MethodNotAllowed);
+    }
+
+    int pageNumber = Request["pg"] != null ? int.Parse(Request["pg"]) : 1;
+    int perPage = 20;
+
+    JsonResult(
+        Posts(pageNumber, perPage, Request["filter"])
+            .Select(p => new
+                        {
+                            id = p.Id,
+                            title = p.Title,
+                            slug = p.TitleSlug,
+                            preview = MarkdownExtensions.FromMarkdownPreview(p.Body),
+                            status = p.Status == 'A' ? "ACTIVE" : "DRAFT",
+                            type = p.PostType == 'B' ? "BLOG POST" : "PAGE", 
+                            dateCreated = p.DateCreated.ToString("s"),
+                            datePublished = p.DatePublished.HasValue ? p.DatePublished.Value.ToString("s") : null,
+                            dateModified = p.LastModified.ToString("s")
+                        }));
+}
+@functions
+{
+    private static List<Post> Posts(int pageNumber, int perPage, string filter)
+    {
+
+        var d = new List<Post>();
+
+        using (var db = Db.GetOpenConnection())
+        {
+            d = db.Query<Post>(string.Format(SqlFormat,FilterString(filter)),
+                new
+                {
+                    pageNumber,
+                    perPage
+                }, commandType: CommandType.Text).ToList();
+        }
+        return d;
+    }
+    
+    private static string FilterString(string filter)
+    {
+        switch (filter)
+        {
+            case "published":
+                return "[Status] = 'A' AND [PostType] = 'B'";
+            case "drafts":
+                return "[Status] = 'D' AND [PostType] = 'B'";
+            case "pages":
+                return "[PostType] = 'P'";
+            default:
+                return "[PostType] = 'B'";
+        }
+    }
+
+    private const string SqlFormat =
+            @"
+WITH Posts  AS
+(
+	SELECT [Id]
+		,[AuthorId]
+		,[TitleSlug]
+		,[Title]
+		,[Body]
+        ,[PostType]
+        ,[Status]
+		,[DatePublished]
+		,[DateCreated]
+		,[LastModified]
+		,ROW_NUMBER() OVER (ORDER BY [Id] DESC) AS RowNumber
+	FROM dbo.Post as p
+    WHERE {0}
+)
+SELECT *
+FROM Posts 
+WHERE RowNumber BETWEEN (@pageNumber - 1) * @perPage + 1 AND @pageNumber * @perPage";
+
+}

@@ -1,0 +1,36 @@
+﻿@{
+    ViewBag.Title = "Login";
+    if (IsPost)
+    {
+        //Login user and redirect
+        var email = Request["email"];
+        var password = Request["password"];
+        var keepMeLoggedIn = true; //make a checkbox?
+        var m = new MiniBlogMembershipProvider();
+        if (m.ValidateUser(email, password))
+        {
+            FormsAuthentication.SetAuthCookie(email, keepMeLoggedIn);
+            Response.Redirect("~/admin/");
+        }
+    }
+    
+}
+<form class="form-horizontal" method="POST">
+    <fieldset>
+        <div class="control-group">
+            <input type="text" id="email" name="email" placeholder="Email" value="@Request["email"]" />        
+        </div>
+        <div class="control-group">
+            <input type="password" id="password" name="password" placeholder="Password" class="form" />
+        </div>
+        <button class="btn" type="submit">Login</button>
+    </fieldset>
+</form>
+
+@section script
+{
+    <script type="text/javascript">
+        $(function () { $("#email").focus(); });    
+    </script>
+    
+}

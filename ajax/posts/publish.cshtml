@@ -1,0 +1,29 @@
+﻿@using MiniBlog.Includes.Data
+@using MiniBlog.Objects
+@{
+    if (Request.HttpMethod.ToUpper() != "GET")
+    {
+        Response.End(HTTP.MethodNotAllowed);
+    }
+    
+    int id;
+    if (!int.TryParse(Request["id"], out id))
+    {
+        Response.End(HTTP.BadRequest);
+    }
+    Post p;
+    using(var db = Db.GetOpenConnection())
+    {
+        p = db.Query<Post>("dbo.spu_Post_Publish", new {Id = id}).SingleOrDefault();
+    }
+    
+    JsonResult(new
+                {
+                    success = 1,
+                    data = new
+                            {
+                                publishDate = p.DatePublished.HasValue ? p.DatePublished.Value.ToString("s") : null,
+                                status = p.Status
+                            }
+                });
+}

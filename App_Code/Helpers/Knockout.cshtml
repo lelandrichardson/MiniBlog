@@ -1,0 +1,7 @@
+﻿@helper StartTemplate(string id) {
+    @(Html.Raw(string.Format(@"<script id=""{0}"" class=""x-jquery-tmpl"" type=""text/html"">",id)))
+}
+@helper EndTemplate()
+{
+    @(Html.Raw(@"</script>"))
+}

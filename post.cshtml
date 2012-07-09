@@ -1,0 +1,85 @@
+﻿@using MiniBlog.Objects
+@{
+    Post post = null;
+    if(Request["slug"] != null)
+    {
+        post = Post.GetFromSlug(Request["slug"]);
+    }
+    else if (Request["id"] != null)
+    {
+        post = Post.Get(int.Parse(Request["id"]));
+    }
+    if(post == null || post.Id == 0)
+    {
+        //post doesn't exist
+        Response.Redirect("~/");
+        //Response.End(HTTP.BadRequest);
+    }
+    
+    
+    ViewBag.Title = post.Title;
+    var canonicalUrl = CanonicalUrl("~/{0}/",post.TitleSlug);
+    var imageUrl = post.ImageUrl; //TODO:
+    var description = MarkdownExtensions.FromMarkdownPreview(post.Body);
+}
+@section head {
+    @Head.Canonical(canonicalUrl)
+    @OpenGraph.Set(post.Title, "article", canonicalUrl, imageUrl)
+    @OpenGraph.Description(MarkdownExtensions.FromMarkdownPreview(post.Body))
+    <meta itemprop="name" content="@post.Title"/>
+    <meta itemprop="description" content="@description"/>
+    <meta itemprop="url" content="@canonicalUrl"/>
+    <meta itemprop="image" content="@imageUrl"/>
+}
+<h2 class="title">@post.Title</h2>
+@if(post.PostType == Post.Type.Blog)
+{
+    var posted = (post.DatePublished.HasValue ? post.DatePublished.Value : DateTime.Now);
+    <div class="title-info">posted <b>@Components.FormatPostDate(posted)</b></div>    
+}
+<div class="post-body" itemprop="articleBody">
+    @FromMarkdown(post.Body)
+</div>
+
+@if (post.Tags.Count > 0)
+{
+    <div class="post-tags">
+        Tags: 
+        @{ var i = 0; }
+        @foreach (string tag in post.Tags)
+        {
+            <a href="@Href(string.Format("~/tag/{0}/", tag))">@tag</a>@(++i == post.Tags.Count ? "" : ",")
+        }
+    </div>
+}
+@if(post.IncludeSocialButtons)
+{
+    <div class="share-buttons">
+        Share: 
+        @Facebook.Like(canonicalUrl)
+        @Google.PlusOne(canonicalUrl)
+        @Twitter.Button(canonicalUrl)
+        @LinkedIn.Share(canonicalUrl)
+    </div>
+}
+
+<div id="disqus_thread"></div>
+
+@section script {
+    <script type="text/javascript">
+        MiniBlog.registerView(@post.Id);
+        MiniBlog.styleCode();
+    </script>
+    @if (post.AllowComments)
+    {
+        @Disqus.Render()
+    }
+    @if(post.IncludeSocialButtons)
+    {
+        @Facebook.AsyncApiScript()
+        @Google.AsyncApiScript()
+        @Twitter.AsyncApiScript()
+        @LinkedIn.AsyncApiScript()
+    }
+}
+
