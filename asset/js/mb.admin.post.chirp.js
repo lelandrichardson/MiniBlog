@@ -20,8 +20,6 @@
 
         self.tags = ko.observableArray([]);
 
-        self.image = ko.observable(spec.image || "");
-
         self.tagInput = ko.observable("");
 
         self.addTag = function() {
@@ -66,8 +64,7 @@
                 self.meta,
                 self.type,
                 self.allowComments,
-                self.includeSocial,
-                self.image
+                self.includeSocial
             ]);
         
         self.bodyDirtyFlag = ko.dirtyFlag([self.body]);
@@ -171,8 +168,7 @@
                         body: self.body(),
                         allowComments: self.allowComments(),
                         includeSocial: self.includeSocial(),
-                        tags: self.tags(),
-                        image: self.image()
+                        tags: self.tags()
                     }
                 }),
                 success: function (response) {
@@ -199,7 +195,6 @@
                 self.allowComments(post.allowComments);
                 self.includeSocial(post.includeSocial);
                 self.tags(post.tags);
-                self.image(post.image);
 
                 self.isSlugBound((self.slug() === getSlug(self.title())));
                 
@@ -225,8 +220,7 @@
                         body: self.body(),
                         allowComments: self.allowComments(),
                         includeSocial: self.includeSocial(),
-                        tags: self.tags(),
-                        image: self.image()
+                        tags: self.tags()
                     }
                 }),
                 success: function (response) {
@@ -256,6 +250,7 @@
 
         return self;
     };
+    
 
     window.viewModel = new EditViewModel();
     ko.applyBindings(window.viewModel);

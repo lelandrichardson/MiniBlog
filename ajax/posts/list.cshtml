@@ -22,8 +22,7 @@
                             type = p.PostType == 'B' ? "BLOG POST" : "PAGE", 
                             dateCreated = p.DateCreated.ToString("s"),
                             datePublished = p.DatePublished.HasValue ? p.DatePublished.Value.ToString("s") : null,
-                            dateModified = p.LastModified.ToString("s"),
-                            image = p.ImageUrl
+                            dateModified = p.LastModified.ToString("s")
                         }));
 }
 @functions
@@ -74,7 +73,6 @@ WITH Posts  AS
 		,[DatePublished]
 		,[DateCreated]
 		,[LastModified]
-        ,[ImageUrl]
 		,ROW_NUMBER() OVER (ORDER BY [Id] DESC) AS RowNumber
 	FROM dbo.Post as p
     WHERE {0}

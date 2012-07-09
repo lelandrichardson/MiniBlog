@@ -66,15 +66,14 @@
             PostType = @PostType,
             AllowComments = @AllowComments,
             IncludeSocialButtons = @IncludeSocialButtons,
-            Tags = @Tags,
-            ImageUrl = @ImageUrl
+            Tags = @Tags
         WHERE Id = @Id
         ";
     
     public void SaveAll(dynamic data)
     {
         string tags = null;
-        if (data.tags != null && data.tags.Count > 0)
+        if (data.tags != null)
         {
             tags = string.Join("|", ((List<object>)data.tags).Select(s=>(string)s));
         }
@@ -91,8 +90,7 @@
                 PostType = ((string)data.type)[0],
                 AllowComments = (bool)data.allowComments,
                 IncludeSocialButtons = (bool)data.includeSocial,
-                Tags = tags,
-                ImageUrl = (string)data.image
+                Tags = tags
             }, commandType: CommandType.Text);
         }
         JsonResult(new

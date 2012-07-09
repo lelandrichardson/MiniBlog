@@ -20,10 +20,14 @@ namespace MiniBlog.Objects
         public DateTime LastModified { get; set; }
         public DateTime? DatePublished { get; set; }
         public char Status { get; set; }
+        
+
         public bool AllowComments { get; set; }
         public bool IncludeSocialButtons { get; set; }
         public char PostType { get; set; }
+
         private string tags;
+
         public string ImageUrl { get; set; }
 
         #endregion
