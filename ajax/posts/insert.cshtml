@@ -1,6 +1,5 @@
 ﻿@using System.Data
 @using MiniBlog.Includes.Data
-@using MiniBlog.Objects
 @{
     if(!IsPost)
     {
@@ -26,7 +25,8 @@
             PostType,
             AllowComments,
             IncludeSocialButtons,
-            Tags
+            Tags,
+            ImageUrl
         ) VALUES (
             @AuthorId,
             @Title,
@@ -35,7 +35,8 @@
             @PostType,
             @AllowComments,
             @IncludeSocialButtons,
-            @Tags
+            @Tags,
+            @ImageUrl
         )
         SELECT cast(@@IDENTITY as int)
     ";
@@ -44,7 +45,7 @@
     {
         int? id;
         string tags = null;
-        if (data.tags != null)
+        if (data.tags != null && data.tags.Count > 0)
         {
             tags = string.Join("|", ((List<object>)data.tags).Select(s => (string)s));
         }
@@ -60,7 +61,8 @@
                 PostType = ((string)data.type)[0],
                 AllowComments =(bool)data.allowComments,
                 IncludeSocialButtons = (bool)data.includeSocial,
-                Tags = tags
+                Tags = tags,
+                ImageUrl = (string)data.image
             }, commandType: CommandType.Text).Single();
         }
         JsonResult(new
