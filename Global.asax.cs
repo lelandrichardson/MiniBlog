@@ -20,10 +20,10 @@ namespace MiniBlog
 
         protected void Application_BeginRequest(object sender, EventArgs e)
         {
-            if (Request.IsLocal)
-            {
+            //if (Request.IsLocal)
+            //{
                 MiniProfiler.Start();
-            }
+            //}
         }
         protected void Application_EndRequest()
         {

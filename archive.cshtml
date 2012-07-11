@@ -1,6 +1,4 @@
-﻿@using MiniBlog.Objects
-@{
-    //MiniBlogSettingsProvider.RefreshSettings();
+﻿@{
     int year, month;
     if(!(int.TryParse(Request["year"],out year) & int.TryParse(Request["month"],out month)))
     {

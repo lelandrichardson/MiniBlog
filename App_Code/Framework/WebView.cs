@@ -28,15 +28,6 @@ namespace MiniBlog.Framework
         }
 
         /// <summary>
-        /// Dynamic Object (KeyValue dictionary) to be passed to the TechProApp Javascript
-        /// API constructor.
-        /// </summary>
-        public dynamic Client
-        {
-            get { return Page.ClientSpec ?? (Page.ClientSpec = new SafeExpando()); }
-        }
-
-        /// <summary>
         /// Dynamic Wrapper around MiniBlogSettingsProvider global object
         /// </summary>
         public dynamic Settings

@@ -22,7 +22,6 @@ var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga
 
             b.AppendLine("var _gaq = _gaq || [];");
             b.AppendLine(SetGaq("_setAccount", MiniBlogSettingsProvider.Settings["GoogleAnalyticsId"].ToString())); 
-            //b.AppendLine(SetGaq("_setDomainName", "tech.pro"));//TODO: update
             b.AppendLine(SetGaq("_trackPageview"));
 
             foreach (var setting in Settings)

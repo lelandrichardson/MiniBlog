@@ -6,7 +6,7 @@ namespace MiniBlog.Extensions
 {
     public static class Twitter
     {
-        public const string TwitterUserName = "TechPro"; //TODO: move to config file.
+        public const string TwitterUserName = ""; //TODO: move to config file.
 
         public static HtmlString Button(
             string href, 
